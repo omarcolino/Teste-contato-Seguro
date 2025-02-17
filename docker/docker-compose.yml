@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    image: php:8.0-apache
+    container_name: php-app
+    ports:
+      - "8000:80"
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/html/src
+    environment:
+      - VIRTUAL_HOST=localhost
+    networks:
+      - app-network
+
+  db:
+    image: nouchka/sqlite3
+    container_name: db
+    volumes:
+      - ./db:/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
